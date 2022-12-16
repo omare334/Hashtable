@@ -105,15 +105,16 @@ hash_table = HashTable(1000)
 
 
 import pandas as pd
-L=input("Enter the file name with type e.g all_data.csv : ")
+L=input("Enter the file name with type e.g all_data.csv: ")
 df=pd.read_csv(f'{L}')
-
+print(df)
 
 def add_to_hash_table(key, value):
     hash_table.set_val(key, value)
 
 df.apply(lambda x: add_to_hash_table(x['hash'], x['national_insurance_number']), axis=1)
 
+# print the hash table
 def search_hash_table():
     for key in lst:
        hashed = int(key)
@@ -141,39 +142,19 @@ elif A=="no":
         lst.append(ele)  # adding the element
     search_hash_table()
 elif A=="other":
-    w=int(input("Enter the position of first hash as it appears in excel : "))
+    w=int(input("Enter the position of first hash as it appears in excel file : "))
     w=int(w-2)
-    z=int(input("Enter the position of last hash as it appears in excel: "))
+    z=int(input("Enter the position of first hash as it appears in excel file : "))
     z=int(z-1)
     D=(df.iloc[w:z, df.columns.get_loc('hash')])
     result = [hash_table.get_val(x) for x in D]
-    G = list(range(w, z))
-    df3 = pd.DataFrame(result, index=[G], columns=['national'])
-    file_name = input("what name would you like the file to be saved as (please add .csv at the end): ")
+    G=list(range(w,z))
+    df3 = pd.DataFrame(result, index=[G],columns=['national'])
+    file_name = input("Enter the file name: ")
     df3.to_csv(file_name, index=True)
     print(df3)
 else:
     print("invalid input")
-
-A=input("do you have another postional argument (Y/N);")
-while A=="Y":
-    w=int(input("Enter the position of first hash as it appears in excel : "))
-    w=int(w-2)
-    z=int(input("Enter the position of last hash as it appears in excel: "))
-    z=int(z-1)
-    D=(df.iloc[w:z, df.columns.get_loc('hash')])
-    result = [hash_table.get_val(x) for x in D]
-    G = list(range(w, z))
-    df3 = pd.DataFrame(result, index=[G], columns=['national'])
-    file_name = input("what name would you like the file to be saved as (please add .csv at the end): ")
-    df3.to_csv(file_name, index=True)
-    print(df3)
-    A=input("do you have another postional argument (Y/N);")
-    if A=="N":
-        print("Thanks, your csv files have been created")
-        break
-
-input("Press enter to exit;")
 
 
 
